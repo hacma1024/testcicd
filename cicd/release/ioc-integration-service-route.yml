@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ioc-integration-service
+spec:
+  hosts:
+    - ioc-integration-service-svc
+  http:
+    - name: ioc-integration-service-test
+      match:
+        - headers:
+            test:
+              exact: "true"
+      route:
+        - destination:
+            host: ioc-integration-service-svc
+            subset: TEST_COLOR
+      corsPolicy:
+        allowOrigins:
+          - regex: ".*"
+        allowMethods:
+          - POST
+          - GET
+        maxAge: 24h
+        allowCredentials: false
+    - name: ioc-integration
+      route:
+        - destination:
+            host: ioc-integration-service-svc
+            subset: ACTIVE_COLOR
+      corsPolicy:
+        allowOrigins:
+          - regex: ".*"
+        allowMethods:
+          - POST
+          - GET
+        maxAge: 24h
+        allowCredentials: false
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ioc-integration-service
+spec:
+  host: ioc-integration-service-svc
+  subsets:
+    - name: blue
+      labels:
+        color: blue
+    - name: green
+      labels:
+        color: green

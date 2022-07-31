@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ioc-integration-service
+  annotations:
+    configuration.konghq.com: do-not-preserve-host
+    konghq.com/strip-path: "true"
+    konghq.com/plugins: add-header
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /integrationService
+            backend:
+              serviceName: ioc-integration-service-svc
+              servicePort: 10002

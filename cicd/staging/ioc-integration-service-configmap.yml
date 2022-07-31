@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ioc-integration-service-configmap
+data:
+#  EUREKA_SERVER: "http://10.60.156.75:8862/eureka/"
+#  REGISTER_EUREKA: "true"
+#  DATABASE_RATING_URL: "jdbc:mariadb://10.60.156.73:8307/odp_rating?useUnicode=yes&characterEncoding=UTF-8"
+#  DATABASE_USER: "mve"
+#  DATABASE_PASS: "123456"
+#  ES_HOSTS: "10.60.156.197:9200"
+
+

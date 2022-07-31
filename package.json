@@ -1,0 +1,19 @@
+{
+  "name": "testcicd",
+  "version": "1.0.0",
+  "description": "test cicd",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoamau2505/testcicd.git"
+  },
+  "author": "mauph",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoamau2505/testcicd/issues"
+  },
+  "homepage": "https://github.com/hoamau2505/testcicd#readme"
+}

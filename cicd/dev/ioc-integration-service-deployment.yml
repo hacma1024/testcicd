@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ioc-integration-service-develop
+spec:
+  selector:
+    matchLabels:
+      app: ioc-integration-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ioc-integration-service
+    spec:
+      serviceAccountName: filebeat
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+      containers:
+        - name: ioc-integration-service-container
+          image: 10.60.156.72/ioc/ioc-integration-service:IMAGE_VERSION
+          volumeMounts:
+            - name: shared-data
+              mountPath: /logs-backend
+          ports:
+            - containerPort: 9998
+          env:
+            - name: EUREKA_SERVER
+              value: http://10.60.156.75:9615/eureka/
+        - image: 10.60.156.72/library/filebeat:3.0
+          name: filebeat-agent
+          env:
+            - name: ES_HOSTS
+              value: 10.60.156.15:9200
+          command: ["filebeat"]
+          args: ["-E", "ES_HOSTS=\"$(ES_HOSTS)\"","-e","-strict.perms=false"]
+          volumeMounts:
+            - name: shared-data
+              mountPath: /log-data
+          securityContext:
+            runAsUser: 0
+      imagePullSecrets:
+        - name: habor
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ioc-integration-service
+  labels:
+    app: ioc-integration-service
+spec:
+  ports:
+    - name: ioc-integration-port
+      protocol: TCP
+      targetPort: 9998
+      port: 9998
+      nodePort: 9998
+  selector:
+    app: ioc-integration-service
+  type: NodePort

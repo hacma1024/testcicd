@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ioc-integration-service
+  labels:
+    app: ioc-integration-service
+  annotations:
+    ingress.kubernetes.io/service-upstream: "true"
+spec:
+  ports:
+    - name: ioc-integration-port
+      protocol: TCP
+      targetPort: 9998
+      port: 9998
+      nodePort: 9998
+  selector:
+    app: ioc-integration-service
+  type: NodePort
+
